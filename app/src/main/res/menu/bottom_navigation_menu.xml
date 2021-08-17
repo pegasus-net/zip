@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/item_0"
+        android:icon="@drawable/menu_item_0"
+        android:title="@string/文件" />
+    <item
+        android:id="@+id/item_1"
+        android:icon="@drawable/menu_item_1"
+        android:title="@string/解压记录" />
+    <item
+        android:id="@+id/item_2"
+        android:icon="@drawable/menu_item_2"
+        android:title="@string/压缩记录" />
+    <item
+        android:id="@+id/item_3"
+        android:icon="@drawable/menu_item_3"
+        android:title="@string/我的" />
+
+</menu>

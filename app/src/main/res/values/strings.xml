@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="文件">文件</string>
+    <string name="解压记录">解压记录</string>
+    <string name="压缩记录">压缩记录</string>
+    <string name="我的">我的</string>
+    <string name="todo">TODO</string>
+    <string name="应用文件">应用文件</string>
+    <string name="压缩包">压缩包</string>
+    <string name="图片">图片</string>
+    <string name="视频">视频</string>
+    <string name="下载">下载</string>
+    <string name="音频">音频</string>
+    <string name="文档">文档</string>
+    <string name="百度网盘">百度网盘</string>
+    <string name="微信">微信</string>
+    <string name="QQ">QQ</string>
+    <string name="手机存储">手机存储</string>
+    <string name="压缩">压缩</string>
+    <string name="复制">复制</string>
+    <string name="删除">删除</string>
+    <string name="取消">取消</string>
+    <string name="中止">中止</string>
+    <string name="新建文件夹">新建文件夹</string>
+    <string name="新文件夹名称">新文件夹名称：</string>
+    <string name="确认">确认</string>
+    <string name="新文件夹">新文件夹</string>
+    <string name="创建压缩文件">创建压缩文件</string>
+</resources>

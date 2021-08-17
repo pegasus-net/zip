@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="zip">
+        <item>快速</item>
+        <item>最快</item>
+        <item>标准</item>
+        <item>较好</item>
+        <item>最佳</item>
+    </string-array>
+    <string-array name="lock">
+        <item>不加密</item>
+        <item>AES_128加密</item>
+        <item>AES_192加密</item>
+        <item>AES_256加密</item>
+    </string-array>
+</resources>
