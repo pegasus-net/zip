@@ -6,6 +6,10 @@ enum class FileType {
     MUSIC,
     IMAGE,
     TEXT,
+    WORD,
+    EXCEL,
+    PPT,
+    PDF,
     ZIP,
     APP,
     UNKNOWN

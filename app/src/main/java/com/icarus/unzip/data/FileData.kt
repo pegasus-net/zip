@@ -2,6 +2,7 @@ package com.icarus.unzip.data
 
 import com.icarus.unzip.enums.FileType
 import com.icarus.unzip.util.getType
+import com.icarus.unzip.util.isNeedHide
 import com.icarus.unzip.util.toDate
 import com.icarus.unzip.util.toSize
 import java.io.File
@@ -16,7 +17,7 @@ data class FileData(val file: File) {
     val length = file.length()
     private val count: Int
         get() {
-            return file.listFiles()?.filter { !it.isHidden }?.size ?: 0
+            return file.listFiles()?.filter { !it.isNeedHide() }?.size ?: 0
         }
 
     val time = lastTime.toDate()

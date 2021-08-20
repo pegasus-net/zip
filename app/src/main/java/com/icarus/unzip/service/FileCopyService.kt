@@ -8,6 +8,8 @@ import com.icarus.unzip.ad.Constants
 import com.icarus.unzip.base.Activity
 import com.icarus.unzip.data.Event
 import com.icarus.unzip.util.getAppContext
+import com.icarus.unzip.util.mainThread
+import com.icarus.unzip.util.show
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import java.io.File
@@ -47,7 +49,7 @@ class FileCopyService : IntentService(FileCopyService::class.java.simpleName) {
         val map = files?.map { File(it) } ?: ArrayList()
         val path = intent?.getStringExtra(Activity.TARGET_FILE_PATH)
         if (map.isEmpty() || path == null) return
-        EventBus.getDefault().post(Event.FileCopyStart)
+        Event.FileCopyStart.post()
         map.forEach {
             total += FileUtil.getSize(it)
         }
@@ -55,10 +57,10 @@ class FileCopyService : IntentService(FileCopyService::class.java.simpleName) {
         map.forEach {
             it.copy(path)
         }
-        EventBus.getDefault().post(Event.FileTaskFinish)
+        Event.FileTaskFinish.post()
         if (running) {
             running = false
-            EventBus.getDefault().post(Event.FileTaskSuccess(path))
+            Event.FileTaskSuccess(path).post()
         }
 
     }
@@ -110,19 +112,21 @@ class FileCopyService : IntentService(FileCopyService::class.java.simpleName) {
                         val p = (current * 1000 / total).toInt()
                         if (progress != p) {
                             progress = p
-                            EventBus.getDefault().post(Event.FileTaskProgress(progress))
+                            Event.FileTaskProgress(progress).post()
                         }
                     }
                     if (!running) {
                         file.delete()
                     }
                 } catch (e: Exception) {
-                    e.printStackTrace()
+                    mainThread {
+                        e.message.show()
+                    }
                     file.delete()
-                    EventBus.getDefault().post(Event.FileTaskFailed)
+                    Event.FileTaskFailed.post()
                     cancelTask()
                 } finally {
-                    EventBus.getDefault().post(Event.FileChanged(file))
+                    Event.FileChanged(file).post()
                     Recycle.close(fis)
                     Recycle.close(fos)
                 }

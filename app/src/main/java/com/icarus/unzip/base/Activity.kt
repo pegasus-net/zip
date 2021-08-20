@@ -33,20 +33,55 @@ abstract class Activity : BaseActivity() {
         const val IGNORE_DIR = "ignore_dir"
 
         const val TITLE = "title"
+        const val MEDIA_TYPE = "media_type"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        state = State.CREATE
         EventBus.getDefault().register(this)
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        state = State.DESTROY
         EventBus.getDefault().unregister(this)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        state = State.START
+    }
+
+    override fun onStop() {
+        super.onStop()
+        state = State.STOP
+    }
+
+    override fun onResume() {
+        super.onResume()
+        state = State.RESUME
+    }
+
+    override fun onPause() {
+        super.onPause()
+        state = State.PAUSE
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN_ORDERED)
     open fun onEvent(event: Event) {
+    }
 
+    var state = State.UNKNOWN
+
+    enum class State {
+        CREATE, START, RESUME, PAUSE, STOP, DESTROY, UNKNOWN
+    }
+
+    fun isActive(): Boolean {
+        return when (state) {
+            State.RESUME -> true
+            else -> false
+        }
     }
 }

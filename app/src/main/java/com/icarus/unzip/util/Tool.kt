@@ -13,6 +13,7 @@ import android.view.View
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import org.greenrobot.eventbus.EventBus
 import java.util.*
 
 fun getAppContext(): Context = Icarus.getContext()
@@ -94,6 +95,13 @@ fun Activity.startActivity(clazz: Class<out Activity>) {
 
 fun View.visible(b: Boolean) {
     visibility = if (b) View.VISIBLE else View.GONE
+}
+
+fun <T> T.registerEvent() {
+   EventBus.getDefault().register(this)
+}
+fun <T> T.unregisterEvent() {
+   EventBus.getDefault().unregister(this)
 }
 
 

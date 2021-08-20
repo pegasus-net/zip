@@ -1,16 +1,16 @@
 package com.icarus.unzip.impl
 
-import com.icarus.unzip.data.FileData
+import java.io.File
 
-class FileSizeCompare : Comparator<FileData> {
-    override fun compare(f1: FileData?, f2: FileData?): Int {
-        f1 as FileData
-        f2 as FileData
+class FileSizeCompare : Comparator<File> {
+    override fun compare(f1: File?, f2: File?): Int {
+        f1 as File
+        f2 as File
         return when {
-            f1.file.isDirectory && f2.file.isFile -> -1
-            f1.file.isFile && f2.file.isDirectory -> 1
-            f1.file.isDirectory && f2.file.isDirectory -> f1.name.compareTo(f2.name,true)
-            f1.file.isFile && f2.file.isFile -> f2.length.compareTo(f1.length)
+            f1.isDirectory && f2.isFile -> -1
+            f1.isFile && f2.isDirectory -> 1
+            f1.isDirectory && f2.isDirectory -> f1.name.compareTo(f2.name,true)
+            f1.isFile && f2.isFile -> f2.length().compareTo(f1.length())
             else -> 0
         }
     }

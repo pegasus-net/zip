@@ -7,10 +7,8 @@ import com.icarus.unzip.R
 import com.icarus.unzip.adapter.ZipFileAdapter
 import com.icarus.unzip.adapter.ZipIndexAdapter
 import com.icarus.unzip.base.Activity
-import com.icarus.unzip.data.FileData
 import com.icarus.unzip.data.ZipFileNode
 import com.icarus.unzip.databinding.ActivityZipPreviewBinding
-import com.icarus.unzip.util.log
 import com.icarus.unzip.util.mainThread
 import com.icarus.unzip.util.subThread
 import com.icarus.unzip.util.visible

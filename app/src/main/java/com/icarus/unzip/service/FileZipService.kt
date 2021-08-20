@@ -58,8 +58,9 @@ class FileZipService : IntentService(FileZipService::class.java.simpleName) {
         val map = fileList?.map { File(it) } ?: ArrayList()
         val zipPara = intent?.getSerializableExtra(Activity.ZIP_PARA) as ZipPara?
         if (map.isEmpty() || zipPara == null) return
-        EventBus.getDefault().post(Event.FileZipStart)
+        Event.FileZipStart.post()
         running = true
+        File(zipPara.filePath).mkdirs()
         val file = File(zipPara.filePath, zipPara.fileName)
         if (file.exists()) {
             file.delete()
@@ -117,7 +118,7 @@ class FileZipService : IntentService(FileZipService::class.java.simpleName) {
                 }
                 if (progress != p) {
                     progress = p
-                    EventBus.getDefault().post(Event.FileTaskProgress(progress))
+                    Event.FileTaskProgress(progress).post()
                 }
                 if (p == 1000) {
                     running = false
@@ -125,16 +126,19 @@ class FileZipService : IntentService(FileZipService::class.java.simpleName) {
                         mainThread { "删除源文件".show() }
                         map.forEach { it.deleteWithDir() }
                     }
-                    EventBus.getDefault().post(Event.FileTaskSuccess(zipPara.filePath))
-                    EventBus.getDefault().post(Event.FileTaskFinish)
-                    EventBus.getDefault().post(Event.FileChanged(file))
+                    Event.FileTaskSuccess(zipPara.filePath).post()
+                    Event.FileTaskFinish.post()
+                    Event.FileChanged(file).post()
                 }
             }
         } catch (e: Exception) {
+            mainThread {
+                e.message.show()
+            }
             running = false
             zipFile.file.delete()
-            EventBus.getDefault().post(Event.FileTaskFailed)
-            EventBus.getDefault().post(Event.FileTaskFinish)
+            Event.FileTaskFailed.post()
+            Event.FileTaskFinish.post()
         }
     }
 

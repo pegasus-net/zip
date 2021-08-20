@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background"
+        android:background="#F6F6F6"
         android:fitsSystemWindows="true">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout2"
             android:layout_width="0dp"
-            android:layout_height="56dp"
+            android:layout_height="100dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
@@ -20,7 +21,10 @@
             <ImageView
                 android:id="@+id/back"
                 style="@style/ImageButton"
+                android:layout_marginTop="8dp"
                 android:contentDescription="@string/todo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/icon_back" />
 
             <TextView
@@ -30,42 +34,65 @@
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:singleLine="true"
+                android:text="@string/图片"
                 android:textColor="@color/black33"
-                android:textSize="16sp" />
-
-            <ImageView
-                android:id="@+id/search"
-                style="@style/ImageButton"
-                android:contentDescription="@string/todo"
-                app:srcCompat="@drawable/icon_search" />
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/back"
+                app:layout_constraintEnd_toStartOf="@+id/menu"
+                app:layout_constraintStart_toEndOf="@+id/back"
+                app:layout_constraintTop_toTopOf="@+id/back" />
 
             <ImageView
                 android:id="@+id/menu"
                 style="@style/ImageButton"
                 android:contentDescription="@string/todo"
+                app:layout_constraintBottom_toBottomOf="@+id/back"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/back"
                 app:srcCompat="@drawable/icon_menu" />
-        </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list"
+            <net.lucode.hackware.magicindicator.MagicIndicator
+                android:id="@+id/indicator"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="80dp"
+                android:layout_marginEnd="80dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
-        <ImageView
-            android:id="@+id/empty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/empty_list"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/refresh"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/main_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+            <ImageView
+                android:id="@+id/empty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/empty_list"
+                android:visibility="gone" />
+        </FrameLayout>
+
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -84,6 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </androidx.cardview.widget.CardView>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </layout>

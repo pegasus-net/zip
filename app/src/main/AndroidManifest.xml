@@ -33,6 +33,8 @@
         <activity android:name=".ui.activity.DirectorySelectActivity" />
         <activity android:name=".ui.activity.UnzipActivity" />
         <activity android:name=".ui.activity.ZipPreviewActivity" />
+        <activity android:name=".ui.activity.MediaManagerActivity" />
+        <activity android:name=".ui.activity.FileFilterActivity" />
 
 
         <service android:name=".service.FileCopyService" />

@@ -27,7 +27,7 @@ class ProgressDialog @Inject constructor(@ActivityContext context: Context) :
     init {
         setCancelable(false)
         cancelButton.setOnClickListener {
-            EventBus.getDefault().post(Event.FileTaskCancel)
+            Event.FileTaskCancel.post()
             dismiss()
         }
     }
@@ -69,7 +69,7 @@ class ProgressDialog @Inject constructor(@ActivityContext context: Context) :
                 dismiss()
             }
             Event.FileTaskFailed -> {
-                "任务失败".show()
+                // "任务失败".show()
             }
             else -> Unit
         }

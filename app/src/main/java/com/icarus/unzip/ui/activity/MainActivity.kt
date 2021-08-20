@@ -10,15 +10,18 @@ import com.icarus.unzip.ad.ExitAdDialog
 import com.icarus.unzip.base.Activity
 import com.icarus.unzip.ui.fragment.MainFragment
 import com.icarus.unzip.ad.SetFragment
+import com.icarus.unzip.data.Event
 import com.icarus.unzip.databinding.ActivityMainBinding
 import com.icarus.unzip.ui.fragment.UnzipHistoryFragment
 import com.icarus.unzip.ui.fragment.ZipHistoryFragment
 import com.icarus.unzip.util.BottomNavigationHelper
+import com.icarus.unzip.util.getRootFile
 import com.icarus.unzip.util.log
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
 
 @AndroidEntryPoint
-class MainActivity : Activity() {
+class MainActivity : EditActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private val fragments = listOf(
@@ -41,7 +44,19 @@ class MainActivity : Activity() {
 
     }
 
+    override fun getZipPath(): String {
+        return getRootFile().absolutePath
+    }
+
+    override fun getZipName(): String {
+        return "压缩文件"
+    }
+
     override fun onBackPressed() {
+        if(editPlug.editMode){
+            editPlug.editMode = false
+            return
+        }
         object : ExitAdDialog(this) {
             override fun show() {
                 super.show()

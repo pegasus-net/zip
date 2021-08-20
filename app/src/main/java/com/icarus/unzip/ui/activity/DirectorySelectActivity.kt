@@ -16,7 +16,6 @@ import com.icarus.unzip.base.Activity
 import com.icarus.unzip.data.Event
 import com.icarus.unzip.databinding.ActivityDirectoryBinding
 import com.icarus.unzip.util.*
-import org.greenrobot.eventbus.EventBus
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
@@ -110,7 +109,7 @@ class DirectorySelectActivity : Activity() {
         subThread {
             val tag = parent
             val data = parent.listFiles()
-                ?.filter { !it.isHidden && it.isDirectory }
+                ?.filter { !it.isNeedHide() && it.isDirectory }
                 ?.sortedBy {
                     it.name.toLowerCase(Locale.ROOT)
                 } ?: ArrayList()
@@ -135,7 +134,7 @@ class DirectorySelectActivity : Activity() {
             if (file.mkdir()) {
                 if (!directoryList.contains(file)) {
                     directoryList.add(file)
-                    EventBus.getDefault().post(Event.FileChanged(file))
+                    Event.FileChanged(file).post()
                     directoryAdapter.notifyDataSetChanged()
                     layoutManager.scrollToPosition(directoryList.size - 1)
                     return true

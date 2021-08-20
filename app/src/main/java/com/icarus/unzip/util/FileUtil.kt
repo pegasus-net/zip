@@ -3,9 +3,13 @@ package com.icarus.unzip.util
 import a.icarus.utils.DateUtil
 import a.icarus.utils.FileUtil
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Environment
+import com.icarus.unzip.enums.FileTime
 import com.icarus.unzip.enums.FileType
+import com.icarus.unzip.ui.activity.FileFilterActivity
 import com.icarus.unzip.ui.activity.ZipPreviewActivity
 import java.io.File
 import java.util.*
@@ -26,20 +30,25 @@ fun File.getType(): FileType {
 }
 
 fun String.getType(): FileType {
-    val apkRegex = Regex("\\.(apk)$", RegexOption.IGNORE_CASE)
-    val videoRegex = Regex("\\.(mp4|wmv|avi|mkv|m4v|flv|rmvb|ts|3gp)$", RegexOption.IGNORE_CASE)
-    val musicRegex = Regex("\\.(mp3|wav|ogg|flac)$", RegexOption.IGNORE_CASE)
-    val imageRegex = Regex("\\.(jpg|jpeg|png|bmp|gif)$", RegexOption.IGNORE_CASE)
-    val textRegex =
-        Regex("\\.(txt|h|htm|html|c|cpp|conf|java|log|xml|rc|sh)$", RegexOption.IGNORE_CASE)
-    val zipRegex = Regex("\\.(rar|zip|)$", RegexOption.IGNORE_CASE)
-    return when {
-        contains(apkRegex) -> FileType.APP
-        contains(videoRegex) -> FileType.VIDEO
-        contains(musicRegex) -> FileType.MUSIC
-        contains(imageRegex) -> FileType.IMAGE
-        contains(textRegex) -> FileType.TEXT
-        contains(zipRegex) -> FileType.ZIP
+//    val apkRegex = Regex("\\.(apk)$", RegexOption.IGNORE_CASE)
+//    val videoRegex = Regex("\\.(mp4|wmv|avi|mkv|m4v|flv|rmvb|ts|3gp)$", RegexOption.IGNORE_CASE)
+//    val musicRegex = Regex("\\.(mp3|wav|ogg|flac)$", RegexOption.IGNORE_CASE)
+//    val imageRegex = Regex("\\.(jpg|jpeg|png|bmp|gif)$", RegexOption.IGNORE_CASE)
+//    val textRegex =
+//        Regex("\\.(txt|h|htm|html|c|cpp|conf|java|log|xml|rc|sh)$", RegexOption.IGNORE_CASE)
+//    val zipRegex = Regex("\\.(rar|zip|)$", RegexOption.IGNORE_CASE)
+    if (isEmpty() || !contains('.')) return FileType.UNKNOWN
+    return when (split('.').last().toLowerCase(Locale.ROOT)) {
+        "apk" -> FileType.APP
+        "mp4", "mkv", "flv", "m4v", "avi", "wmv", "rmvb", "ts" -> FileType.VIDEO
+        "mp3", "wav", "ogg", "flac", "aac" -> FileType.MUSIC
+        "png", "jpeg", "jpg", "bmp", "gif" -> FileType.IMAGE
+        "rar", "zip" -> FileType.ZIP
+        "doc", "docx" -> FileType.WORD
+        "xls", "xlsx" -> FileType.EXCEL
+        "ppt", "pptx" -> FileType.PPT
+        "pdf" -> FileType.PDF
+        "txt" -> FileType.TEXT
         else -> FileType.UNKNOWN
     }
 }
@@ -139,6 +148,7 @@ private val MIME_MapTable = arrayOf(
     arrayOf(".mov", "video/quicktime"),
     arrayOf(".mp2", "audio/x-mpeg"),
     arrayOf(".mp3", "audio/x-mpeg"),
+    arrayOf(".aac", "audio/*"),
     arrayOf(".mp4", "video/mp4"),
     arrayOf(".mpc", "application/vnd.mpohun.certificate"),
     arrayOf(".mpe", "video/mpeg"),
@@ -187,21 +197,46 @@ fun File.deleteWithDir(): Boolean {
     return true
 }
 
-
-fun File.flat(): ArrayList<File> {
-    val list = ArrayList<File>()
-    if (isDirectory && list()?.size != 0) {
-        listFiles()?.forEach {
-            if (it.isDirectory) {
-                list.addAll(it.flat())
-            } else {
-                list.add(it)
-            }
-        }
-    } else {
+fun File.scan(list: ArrayList<File>, checkNoMedia: Boolean = true) {
+    if (isNeedHide()) return
+    if (isFile) {
         list.add(this)
+    } else {
+        val listFiles = list { _, name ->
+            name == ".nomedia" && checkNoMedia
+        }
+        if (!listFiles.isNullOrEmpty()) return
+        listFiles()?.forEach {
+            it.scan(list, checkNoMedia)
+        }
     }
-    return list
+}
+
+
+
+fun File.getLastTime(): FileTime {
+    return FileTime.getFileTime(lastModified())
+}
+
+fun File.isNeedHide(): Boolean {
+    return isHidden && !Config.isShowHideFile
+}
+
+
+fun File.apkIcon(): Drawable? {
+    val absPath = absolutePath
+    val pm: PackageManager = getAppContext().packageManager
+    val pkgInfo = pm.getPackageArchiveInfo(absolutePath, PackageManager.GET_ACTIVITIES)
+    if (pkgInfo != null) {
+        val appInfo = pkgInfo.applicationInfo
+        appInfo.sourceDir = absPath
+        appInfo.publicSourceDir = absPath
+        val appName = pm.getApplicationLabel(appInfo).toString()
+        val packageName = appInfo.packageName
+        val version = pkgInfo.versionName
+        return appInfo.loadIcon(pm)
+    }
+    return null
 }
 
 fun fileNameInvalid() {

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background"
+        android:background="#F6F6F6"
         android:fitsSystemWindows="true">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout2"
             android:layout_width="0dp"
             android:layout_height="56dp"
@@ -20,7 +21,10 @@
             <ImageView
                 android:id="@+id/back"
                 style="@style/ImageButton"
+                android:layout_marginTop="8dp"
                 android:contentDescription="@string/todo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/icon_back" />
 
             <TextView
@@ -30,44 +34,53 @@
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:singleLine="true"
+                android:text="@string/文件"
                 android:textColor="@color/black33"
-                android:textSize="16sp" />
-
-            <ImageView
-                android:id="@+id/search"
-                style="@style/ImageButton"
-                android:contentDescription="@string/todo"
-                app:srcCompat="@drawable/icon_search" />
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/back"
+                app:layout_constraintEnd_toStartOf="@+id/menu"
+                app:layout_constraintStart_toEndOf="@+id/back"
+                app:layout_constraintTop_toTopOf="@+id/back" />
 
             <ImageView
                 android:id="@+id/menu"
                 style="@style/ImageButton"
                 android:contentDescription="@string/todo"
+                app:layout_constraintBottom_toBottomOf="@+id/back"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/back"
                 app:srcCompat="@drawable/icon_menu" />
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list"
+        <net.lucode.hackware.magicindicator.MagicIndicator
+            android:id="@+id/indicator"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+        <com.icarus.unzip.coustomView.ViewPagerSwipeRefreshLayout
+            android:id="@+id/refresh"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+            app:layout_constraintTop_toBottomOf="@+id/indicator">
 
-        <ImageView
-            android:id="@+id/empty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/empty_list"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+        </com.icarus.unzip.coustomView.ViewPagerSwipeRefreshLayout>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -84,6 +97,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </androidx.cardview.widget.CardView>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 </layout>

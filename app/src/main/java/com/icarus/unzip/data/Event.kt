@@ -1,5 +1,6 @@
 package com.icarus.unzip.data
 
+import org.greenrobot.eventbus.EventBus
 import java.io.File
 
 sealed class Event {
@@ -15,6 +16,12 @@ sealed class Event {
     object FileZipStart : Event()
     object FileUnzipStart : Event()
 
-    class FileChanged(val file: File?) : Event()
+
+    class FileChanged(val file: File? = null) : Event()
+    object FileDelete : Event()
+
+    fun post() {
+        EventBus.getDefault().post(this)
+    }
 }
 

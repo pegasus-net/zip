@@ -40,7 +40,7 @@ class ZipFileAdapter(list: List<ZipFileNode>) :
             layoutParams.bottomMargin = 0
         }
         holder.name.text = item.name
-        holder.size.text = FileUtil.formatBytes(item.size)
+        holder.size.text = item.size.toSize()
         if (item.isDirectory) {
             holder.icon.setImageResource(R.drawable.file_item_1)
             holder.size.text = "${item.size}项"
