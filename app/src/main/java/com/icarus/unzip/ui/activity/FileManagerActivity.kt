@@ -78,6 +78,9 @@ class FileManagerActivity : EditActivity() {
             }
             popupMenu.show()
         }
+        binding.search.setOnClickListener {
+            SearchActivity.start(this, parent.absolutePath)
+        }
     }
 
     private var comparator: Comparator<File> = FileNameCompare()

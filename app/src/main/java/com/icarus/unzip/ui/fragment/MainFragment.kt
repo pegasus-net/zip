@@ -13,6 +13,7 @@ import com.icarus.unzip.R
 import com.icarus.unzip.coustomView.ScaleTitleView
 import com.icarus.unzip.databinding.FragmentMainBinding
 import com.icarus.unzip.impl.NavigatorAdapter
+import com.icarus.unzip.ui.activity.SearchActivity
 import com.icarus.unzip.util.toPxF
 import net.lucode.hackware.magicindicator.ViewPagerHelper
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
@@ -52,7 +53,7 @@ class MainFragment : BaseFragment() {
 
     override fun initListener() {
         binding.search.setOnClickListener {
-
+            SearchActivity.start(mActivity)
         }
     }
 }

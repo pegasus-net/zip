@@ -168,4 +168,9 @@ class FileFilterActivity : EditActivity() {
         }
         super.onBackPressed()
     }
+
+    override fun afterOpenFileManager() {
+        super.afterOpenFileManager()
+        finish()
+    }
 }

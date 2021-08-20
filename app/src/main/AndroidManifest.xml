@@ -35,6 +35,8 @@
         <activity android:name=".ui.activity.ZipPreviewActivity" />
         <activity android:name=".ui.activity.MediaManagerActivity" />
         <activity android:name=".ui.activity.FileFilterActivity" />
+        <activity android:name=".ui.activity.SearchActivity"
+            android:windowSoftInputMode="adjustPan"/>
 
 
         <service android:name=".service.FileCopyService" />
